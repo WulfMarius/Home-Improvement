@@ -17,9 +17,18 @@ namespace HomeImprovement
 
         public override bool ProcessInteraction()
         {
-            if (Template == null)
+            if (GameManager.GetWeatherComponent().IsTooDarkForAction(ActionsToBlock.Repair))
             {
-                return false;
+                HUDMessage.AddMessage(Localization.Get("GAMEPLAY_RequiresLightToRepair"));
+                GameAudioManager.PlayGUIError();
+                return true;
+            }
+
+            if (RequiresTools && !GameManager.GetInventoryComponent().HasNonRuinedItem("GEAR_SimpleTools") && !GameManager.GetInventoryComponent().HasNonRuinedItem("GEAR_HighQualityTools"))
+            {
+                HUDMessage.AddMessage(Localization.Get("GAMEPLAY_ToolRequiredToForceOpen").Replace("{item-name}", Localization.Get("GAMEPLAY_RadialTools")));
+                GameAudioManager.PlayGUIError();
+                return true;
             }
 
             this.StartProgressBar("GAMEPLAY_RepairingProgress", "PLAY_REPAIRINGWOOD", 5);
@@ -27,7 +36,7 @@ namespace HomeImprovement
             return true;
         }
 
-        internal static Vector3 GetTargetPosition(GameObject containerParent, Vector3 localPosition)
+        internal static Vector3 GetTargetPosition(GameObject containerParent, Vector3 relativePosition)
         {
             List<Vector3> positions = GetAllPositions(containerParent);
             if (positions == null || positions.Count == 0)
@@ -41,7 +50,7 @@ namespace HomeImprovement
                 positions.RemoveAll(value => Vector3.Distance(value, child.transform.localPosition) < 0.05f);
             }
 
-            return positions.OrderBy(value => Vector3.Distance(localPosition, value)).FirstOrDefault();
+            return positions.OrderBy(value => Vector3.Distance(relativePosition, value)).FirstOrDefault();
         }
 
         internal override bool PerformRepair()
@@ -67,7 +76,7 @@ namespace HomeImprovement
 
         private static List<Vector3> GetAllPositions(GameObject containerParent)
         {
-            if (containerParent.name.Equals("CONTAINER_KitchenCabinetASink"))
+            if (containerParent.name.StartsWith("CONTAINER_KitchenCabinetA") && containerParent.name.EndsWith("Sink"))
             {
                 return new List<Vector3>
                 {
@@ -81,7 +90,7 @@ namespace HomeImprovement
                 };
             }
 
-            if (containerParent.name.Equals("CONTAINER_KitchenCabinetBSink"))
+            if (containerParent.name.StartsWith("CONTAINER_KitchenCabinetB") && containerParent.name.EndsWith("Sink"))
             {
                 return new List<Vector3>
                 {

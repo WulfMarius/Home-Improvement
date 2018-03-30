@@ -10,6 +10,9 @@ namespace HomeImprovement
             m_LocalizationID = "GAMEPLAY_Repair"
         };
 
+        public bool RequiresTools;
+        public bool Applied;
+
         public virtual string GetInteractiveObjectDisplayText()
         {
             if (this.InteractiveDisplayText == null)
@@ -26,13 +29,14 @@ namespace HomeImprovement
         {
             if (this.PerformRepair())
             {
+                Applied = true;
                 Destroy(this);
             }
         }
 
         internal void StartProgressBar(string displayTextKey, string audio, float seconds)
         {
-            InterfaceManager.m_Panel_GenericProgressBar.Launch(Localization.Get(displayTextKey), seconds, 0.0f, 0.0f, audio, null, true, true, this.OnRepairedFinished);
+            InterfaceManager.m_Panel_GenericProgressBar.Launch(Localization.Get(displayTextKey), seconds, 5, 0.0f, audio, null, true, true, this.OnRepairedFinished);
         }
 
         internal void OnRepairedFinished(bool success, bool playerCancel, float progress)

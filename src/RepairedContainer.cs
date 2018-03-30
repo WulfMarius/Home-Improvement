@@ -26,6 +26,7 @@ namespace HomeImprovement
 
         public void AddRepairedContainer(RepairedContainer repairedContainer)
         {
+            this.containers.RemoveAll(value => Vector3.Distance(value.position, repairedContainer.position) < 0.01f);
             this.containers.Add(repairedContainer);
         }
 

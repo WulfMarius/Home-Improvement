@@ -1,0 +1,121 @@
+{
+	"Definitions": {
+		"CoastalHouseA": [
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorA_Prefab/OBJ_KitchenCabinetDoorA_LOD0",
+					"Position": [-2.617, 0.034, -2.592]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetASink/Hinge/OBJ_KitchenCabinetDoorA",
+					"Position": [-1.879, 0.610, -2.927]
+				},
+				"Reference": [-0.473, 0.613, -0.503],
+				"Type": "CabinetDoor"
+			}
+		],
+		"CoastalHouseD": [
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorA_Prefab/OBJ_KitchenCabinetDoorA_LOD0",
+					"Position": [-1.565, 0.033, 1.412]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetASink/Hinge/OBJ_KitchenCabinetDoorA",
+					"Position": [-1.000, 0.612, 1.982]
+				},
+				"Reference": [-0.473, 0.613, -0.503],
+				"Type": "CabinetDoor"
+			}		
+		],
+		"CoastalHouseE": [
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorA_Prefab/OBJ_KitchenCabinetDoorA_LOD0",
+					"Position": [-3.135, 1.126, -3.134]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetASink/Hinge/OBJ_KitchenCabinetDoorC",
+					"Position": [-3.147, 0.598, -2.856]
+				},
+				"Reference": [-0.473, 0.613, -0.503],
+				"Type": "CabinetDoor"
+			}		
+		],
+		"FarmHouseA": [
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorB_Prefab/OBJ_KitchenCabinetDoorB_LOD0",
+					"Position": [-1.590, 0.201, 9.471]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetD2/Hinge/OBJ_KitchenCabinetDoorB",
+					"Position": [-3.301, 1.951, 8.188]
+				},
+				"Reference": [-0.409, -0.026, -0.361],
+				"Type": "CabinetDoor"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorB_Prefab/OBJ_KitchenCabinetDoorB_LOD0",
+					"Position": [0.350, 1.145, 9.278]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetB2/Hinge/OBJ_KitchenCabinetDoorD",
+					"Position": [0.890, 0.611, 8.845]
+				},
+				"Reference": [-0.901, 0.613, 0.556],
+				"Type": "CabinetDoor"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorB_Prefab/OBJ_KitchenCabinetDoorB_LOD0",
+					"Position": [-0.479, 2.461, 9.381]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetD3/Hinge/OBJ_KitchenCabinetDoorB",
+					"Position": [0.584, 1.945, 9.334]
+				},
+				"Reference": [-0.409, -0.025, 0.862],
+				"Type": "CabinetDoor"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_DresserDrawerC_Prefab/OBJ_DresserDrawerC_LOD0",
+					"Position": [-4.140, 4.855, -0.289]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_LargeDresserB/OBJ_DresserDrawerA",
+					"Position": [-4.255, 4.458, -0.209]
+				},
+				"Reference": [0.107, 0.973, 0.510],
+				"Type": "Drawer"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_DresserTallDrawerD",
+					"Position": [5.232, 3.614, -2.255]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_DresserTallB/OBJ_DresserTallDrawerC",
+					"Position": [4.181, 4.403, -3.472]
+				},
+				"Reference": [0.108, 0.605, 0.000],
+				"Type": "Drawer"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_DresserDrawerC_Prefab/OBJ_DresserDrawerC_LOD0",
+					"Position": [-0.319, 3.601, 6.268]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_LargeDresserB/OBJ_DresserDrawerF",
+					"Position": [-0.960, 4.128, 5.644]
+				},
+				"Reference": [0.107, 0.973, 0.510],
+				"Type": "Drawer"
+			}
+		]
+	}
+}
+

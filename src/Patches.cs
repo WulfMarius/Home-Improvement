@@ -33,23 +33,26 @@ namespace HomeImprovement
     [HarmonyPatch(typeof(PlayerManager), "InteractiveObjectsProcessInteraction")]
     internal class PlayerManager_InteractiveObjectsProcessInteraction
     {
-        public static void Postfix(PlayerManager __instance, ref bool __result)
+        public static bool Prefix(PlayerManager __instance, ref bool __result)
         {
             if (__instance.m_PickupGearItem || GameManager.GetPlayerAnimationComponent().GetState() == PlayerAnimation.State.Throwing || GameManager.GetPlayerManagerComponent().GetControlMode() == PlayerControlMode.InConversation)
             {
-                return;
+                return true;
             }
 
             if (__instance.m_InteractiveObjectUnderCrosshair == null)
             {
-                return;
+                return true;
             }
 
             Repairable repairable = __instance.m_InteractiveObjectUnderCrosshair.GetComponent<Repairable>();
             if (repairable != null)
             {
                 __result = repairable.ProcessInteraction();
+                return false;
             }
+
+            return true;
         }
     }
 

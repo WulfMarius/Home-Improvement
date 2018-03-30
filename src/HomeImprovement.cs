@@ -13,6 +13,8 @@ namespace HomeImprovement
             name = assemblyName.Name;
 
             Log("Version " + assemblyName.Version);
+
+            RepairManager.Initialize();
         }
 
         internal static void Log(string message)

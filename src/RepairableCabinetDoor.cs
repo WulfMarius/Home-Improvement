@@ -51,11 +51,17 @@ namespace HomeImprovement
 
         internal static void Prepare(GameObject target, Container template)
         {
+            Prepare(target, template, target.transform.localPosition);
+        }
+
+        internal static void Prepare(GameObject target, Container template, Vector3 referencePoint)
+        {
             RepairableContainer repairable = target.AddComponent<RepairableContainer>();
             repairable.Template = GetParent(template);
             repairable.ParentContainer = GetParent(repairable.Template);
-            repairable.TargetPosition = RepairableContainer.GetTargetPosition(repairable.ParentContainer, repairable.transform.localPosition);
+            repairable.TargetPosition = RepairableContainer.GetTargetPosition(repairable.ParentContainer, referencePoint);
             repairable.TargetRotation = repairable.Template.transform.localRotation;
+            repairable.RequiresTools = true;
 
             target.AddComponent<BoxCollider>();
             target.layer = vp_Layer.Container;

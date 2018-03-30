@@ -54,6 +54,7 @@
     <Compile Include="src\HomeImprovement.cs" />
     <Compile Include="src\PathGameObjectSearchFilter.cs" />
     <Compile Include="src\RepairableContainer.cs" />
+    <Compile Include="src\RepairableContainerDefinition.cs" />
     <Compile Include="src\RepairableDrawer.cs" />
     <Compile Include="src\GameObjectSearchFilter.cs" />
     <Compile Include="src\Patches.cs" />
@@ -62,6 +63,9 @@
     <Compile Include="src\RepairedContainer.cs" />
     <Compile Include="src\RepairManager.cs" />
     <Compile Include="src\HomeImprovementUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="repairable-container-definitions.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

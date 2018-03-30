@@ -16,6 +16,21 @@ namespace HomeImprovement
         private const string REPAIRED_CONTAINERS_SUFFIX = "-RepairedContainers";
 
         private static RepairedContainers repairedContainers = new RepairedContainers();
+        private static RepairableContainerDefinitions definitions;
+
+        internal static void Initialize()
+        {
+            System.IO.StreamReader streamReader = new System.IO.StreamReader(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("HomeImprovement.repairable-container-definitions.json"));
+            string json = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            definitions = Utils.DeserializeObject<RepairableContainerDefinitions>(json);
+
+            if (definitions == null)
+            {
+                definitions = new RepairableContainerDefinitions();
+            }
+        }
 
         internal static void AddRepairedContainer(string guid, GameObject repairableContainer, string scene)
         {
@@ -39,15 +54,14 @@ namespace HomeImprovement
 
             foreach (RepairedContainer eachRepairedContainer in loadedRepairedContainers.containers)
             {
-                if (eachRepairedContainer.scene != GameManager.m_ActiveScene)
+                if (eachRepairedContainer.scene == GameManager.m_ActiveScene)
                 {
-                    continue;
+                    RestoreRepairedContainer(eachRepairedContainer);
                 }
-                RestoreRepairedContainer(eachRepairedContainer);
             }
 
             stopwatch.Stop();
-            Log("Loaded and applied " + loadedRepairedContainers.containers.Count + " repairable(s) for scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            Log("Loaded " + loadedRepairedContainers.containers.Count + " repair(s) for scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
         internal static void PrepareRepairables()
@@ -77,6 +91,43 @@ namespace HomeImprovement
                 }
             }
 
+            RepairableContainerDefinition[] repairableContainerDefinition = definitions.GetDefinitions(GameManager.m_ActiveScene);
+            foreach (RepairableContainerDefinition eachDefinition in repairableContainerDefinition)
+            {
+                GameObject target = FindGameObject(eachDefinition.Target.Path, eachDefinition.Target.Position);
+                if (target == null)
+                {
+                    continue;
+                }
+
+                GameObject template = FindGameObject(eachDefinition.Template.Path, eachDefinition.Template.Position);
+                if (template == null)
+                {
+                    continue;
+                }
+
+                Container container = template.GetComponent<Container>();
+                if (container == null)
+                {
+                    continue;
+                }
+
+                if ("CabinetDoor" == eachDefinition.Type)
+                {
+                    RepairableCabinetDoor.Prepare(target, container, eachDefinition.Reference);
+                    count++;
+                }
+                else if ("Drawer" == eachDefinition.Type)
+                {
+                    RepairableDrawer.Prepare(target, container, eachDefinition.Reference);
+                    count++;
+                }
+                else
+                {
+                    Log("Unsupported type '" + eachDefinition.Type + "'");
+                }
+            }
+
             stopwatch.Stop();
             Log("Prepared " + count + " repairable(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
@@ -91,26 +142,25 @@ namespace HomeImprovement
             SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveName, sceneSaveName + REPAIRED_CONTAINERS_SUFFIX, saveProxyData);
         }
 
+        private static GameObject FindGameObject(string path, Vector3 position)
+        {
+            List<GameObject> targets = GetSceneObjects(new PathGameObjectSearchFilter(path));
+            return targets.Find(target => Vector3.Distance(target.transform.position, position) < 0.05f);
+        }
+
         private static void RestoreRepairedContainer(RepairedContainer repairedContainer)
         {
-            List<GameObject> targets = GetSceneObjects(new PathGameObjectSearchFilter(repairedContainer.path));
-            foreach (GameObject eachTarget in targets)
+            GameObject target = FindGameObject(repairedContainer.path, repairedContainer.position);
+            if (target == null)
             {
-                float distance = Vector3.Distance(eachTarget.transform.position, repairedContainer.position);
-                if (distance > 0.05f)
-                {
-                    continue;
-                }
+                return;
+            }
 
-                RepairableContainer repairableContainer = eachTarget.GetComponentInChildren<RepairableContainer>();
-                if (repairableContainer == null)
-                {
-                    continue;
-                }
-
+            RepairableContainer repairableContainer = target.GetComponentInChildren<RepairableContainer>();
+            if (repairableContainer != null && !repairableContainer.Applied)
+            {
                 repairableContainer.ContainerGuid = repairedContainer.guid;
                 repairableContainer.Repair();
-                break;
             }
         }
     }
