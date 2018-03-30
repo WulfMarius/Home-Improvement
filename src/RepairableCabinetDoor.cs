@@ -4,21 +4,21 @@ using static HomeImprovement.HomeImprovementUtils;
 
 namespace HomeImprovement
 {
-    internal class RepairableDrawer : GameObjectSearchFilter
+    internal class RepairableCabinetDoor : GameObjectSearchFilter
     {
-        private static RepairableDrawer instance = new RepairableDrawer();
+        private static RepairableCabinetDoor instance = new RepairableCabinetDoor();
 
-        private RepairableDrawer()
+        private RepairableCabinetDoor()
         {
         }
 
-        public static RepairableDrawer FilterInstance
+        public static RepairableCabinetDoor FilterInstance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new RepairableDrawer();
+                    instance = new RepairableCabinetDoor();
                 }
                 return instance;
             }
@@ -41,7 +41,7 @@ namespace HomeImprovement
                 return SearchResult.SKIP_CHILDREN;
             }
 
-            if (gameObject.name.StartsWith("OBJ_DresserDrawer") || gameObject.name.StartsWith("OBJ_DresserTallDrawer"))
+            if (gameObject.name.StartsWith("OBJ_KitchenCabinetDoor"))
             {
                 return SearchResult.INCLUDE_SKIP_CHILDREN;
             }
@@ -52,7 +52,7 @@ namespace HomeImprovement
         internal static void Prepare(GameObject target, Container template)
         {
             RepairableContainer repairable = target.AddComponent<RepairableContainer>();
-            repairable.Template = template.gameObject;
+            repairable.Template = GetParent(template);
             repairable.ParentContainer = GetParent(repairable.Template);
             repairable.TargetPosition = RepairableContainer.GetTargetPosition(repairable.ParentContainer, repairable.transform.localPosition);
             repairable.TargetRotation = repairable.Template.transform.localRotation;

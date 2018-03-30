@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using UnityEngine;
+
 namespace HomeImprovement
 {
     public struct RepairedContainer
@@ -7,11 +9,13 @@ namespace HomeImprovement
         public string guid;
         public string path;
         public string scene;
+        public Vector3 position;
 
-        public RepairedContainer(string scene, string path, string guid)
+        public RepairedContainer(string scene, string path, Vector3 position, string guid)
         {
             this.scene = scene;
             this.path = path;
+            this.position = position;
             this.guid = guid;
         }
     }
@@ -22,7 +26,6 @@ namespace HomeImprovement
 
         public void AddRepairedContainer(RepairedContainer repairedContainer)
         {
-            this.containers.RemoveAll(container => container.scene == repairedContainer.scene && container.path == repairedContainer.path);
             this.containers.Add(repairedContainer);
         }
 

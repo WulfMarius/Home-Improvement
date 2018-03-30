@@ -17,20 +17,25 @@ namespace HomeImprovement
 
         private static RepairedContainers repairedContainers = new RepairedContainers();
 
+        internal static void AddRepairedContainer(string guid, GameObject repairableContainer, string scene)
+        {
+            RepairedContainer repairedContainer = new RepairedContainer(scene, GetPath(repairableContainer), repairableContainer.transform.position, guid);
+            repairedContainers.AddRepairedContainer(repairedContainer);
+        }
+
         internal static void LoadRepairs(string saveName, string sceneSaveName)
         {
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
             repairedContainers.Clear();
 
             string saveProxyData = SaveGameSlots.LoadDataFromSlot(saveName, sceneSaveName + REPAIRED_CONTAINERS_SUFFIX);
             RepairedContainers loadedRepairedContainers = DeserializeSaveProxy<RepairedContainers>(saveProxyData);
-
             if (loadedRepairedContainers == null)
             {
-                Log("Loaded 0 repair(s) for scene '" + GameManager.m_ActiveScene + "'.");
-                return;
+                loadedRepairedContainers = new RepairedContainers();
             }
-
-            Log("Loaded " + loadedRepairedContainers.containers.Count + " repair(s) for scene '" + GameManager.m_ActiveScene + "'.");
 
             foreach (RepairedContainer eachRepairedContainer in loadedRepairedContainers.containers)
             {
@@ -38,8 +43,11 @@ namespace HomeImprovement
                 {
                     continue;
                 }
-                RepairContainer(eachRepairedContainer);
+                RestoreRepairedContainer(eachRepairedContainer);
             }
+
+            stopwatch.Stop();
+            Log("Loaded and applied " + loadedRepairedContainers.containers.Count + " repairable(s) for scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
         internal static void PrepareRepairables()
@@ -47,33 +55,30 @@ namespace HomeImprovement
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
-            List<GameObject> repairableDrawers = HomeImprovementUtils.GetSceneObjects(RepairableDrawerFilter.Instance);
+            int count = 0;
 
-            foreach (GameObject eachRepairableDrawer in repairableDrawers)
+            foreach (GameObject eachRepairableDrawer in GetSceneObjects(RepairableDrawer.FilterInstance))
             {
-                Container template = HomeImprovementUtils.FindContainerTemplate(eachRepairableDrawer);
-                if (template == null)
+                Container template = FindContainerTemplate(eachRepairableDrawer);
+                if (template != null)
                 {
-                    continue;
+                    RepairableDrawer.Prepare(eachRepairableDrawer, template);
+                    count++;
                 }
+            }
 
-                RepairableDrawer.Prepare(eachRepairableDrawer, template);
+            foreach (GameObject eachRepairableCabinetDoor in GetSceneObjects(RepairableCabinetDoor.FilterInstance))
+            {
+                Container template = FindContainerTemplate(eachRepairableCabinetDoor);
+                if (template != null)
+                {
+                    RepairableCabinetDoor.Prepare(eachRepairableCabinetDoor, template);
+                    count++;
+                }
             }
 
             stopwatch.Stop();
-            Log("Prepared " + repairableDrawers.Count + " repairable(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
-        }
-
-        internal static void RepairContainer(GameObject target, Container template, string guid)
-        {
-            HomeImprovementUtils.SetGuid(target, guid);
-            HomeImprovementUtils.CopyTweenEvents(template, target);
-            HomeImprovementUtils.AddAnimation(target);
-            HomeImprovementUtils.CopyContainer(template, target);
-
-            vp_Layer.Set(target, vp_Layer.Container);
-
-            RepairManager.AddRepairedContainer(guid, HomeImprovementUtils.GetPath(target), GameManager.m_ActiveScene);
+            Log("Prepared " + count + " repairable(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
         internal static void SaveRepairs(SaveSlotType gameMode, string saveName, string sceneSaveName)
@@ -86,28 +91,27 @@ namespace HomeImprovement
             SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveName, sceneSaveName + REPAIRED_CONTAINERS_SUFFIX, saveProxyData);
         }
 
-        private static void AddRepairedContainer(string guid, string path, string scene)
+        private static void RestoreRepairedContainer(RepairedContainer repairedContainer)
         {
-            RepairedContainer repairedContainer = new RepairedContainer(scene, path, guid);
-            repairedContainers.AddRepairedContainer(repairedContainer);
-        }
-
-        private static void RepairContainer(RepairedContainer repairedContainer)
-        {
-            GameObject target = GameObject.Find(repairedContainer.path);
-            if (target == null)
+            List<GameObject> targets = GetSceneObjects(new PathGameObjectSearchFilter(repairedContainer.path));
+            foreach (GameObject eachTarget in targets)
             {
-                return;
-            }
+                float distance = Vector3.Distance(eachTarget.transform.position, repairedContainer.position);
+                if (distance > 0.05f)
+                {
+                    continue;
+                }
 
-            RepairableContainer repairableContainer = target.GetComponentInChildren<RepairableContainer>();
-            if (repairableContainer == null)
-            {
-                return;
-            }
+                RepairableContainer repairableContainer = eachTarget.GetComponentInChildren<RepairableContainer>();
+                if (repairableContainer == null)
+                {
+                    continue;
+                }
 
-            repairableContainer.ContainerGuid = repairedContainer.guid;
-            repairableContainer.Repair();
+                repairableContainer.ContainerGuid = repairedContainer.guid;
+                repairableContainer.Repair();
+                break;
+            }
         }
     }
 }

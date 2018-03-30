@@ -5,7 +5,10 @@ namespace HomeImprovement
     [DisallowMultipleComponent]
     public abstract class Repairable : MonoBehaviour
     {
-        public LocalizedString InteractiveDisplayText;
+        public LocalizedString InteractiveDisplayText = new LocalizedString()
+        {
+            m_LocalizationID = "GAMEPLAY_Repair"
+        };
 
         public virtual string GetInteractiveObjectDisplayText()
         {

@@ -35,7 +35,12 @@ namespace HomeImprovement
     {
         public static void Postfix(PlayerManager __instance, ref bool __result)
         {
-            if (__result || __instance.m_InteractiveObjectUnderCrosshair == null)
+            if (__instance.m_PickupGearItem || GameManager.GetPlayerAnimationComponent().GetState() == PlayerAnimation.State.Throwing || GameManager.GetPlayerManagerComponent().GetControlMode() == PlayerControlMode.InConversation)
+            {
+                return;
+            }
+
+            if (__instance.m_InteractiveObjectUnderCrosshair == null)
             {
                 return;
             }

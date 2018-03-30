@@ -7,42 +7,6 @@ namespace HomeImprovement
 {
     internal class HomeImprovementUtils
     {
-        internal static void AddAnimation(GameObject target)
-        {
-            ObjectAnim objectAnim = target.AddComponent<ObjectAnim>();
-            objectAnim.m_Target = target;
-        }
-
-        internal static void CopyContainer(Container source, GameObject target)
-        {
-            Container container = target.AddComponent<Container>();
-            container.m_LocalizedDisplayName = new LocalizedString()
-            {
-                m_LocalizationID = source.m_LocalizedDisplayName.m_LocalizationID
-            };
-            container.m_CloseAudio = source.m_CloseAudio;
-            container.m_CapacityKG = source.m_CapacityKG;
-            container.m_DecayScalar = source.m_DecayScalar;
-            container.m_DefaultFilter = source.m_DefaultFilter;
-            container.m_OpenAudio = source.m_OpenAudio;
-            container.m_OpenDelaySeconds = source.m_OpenDelaySeconds;
-            container.m_StartInspected = true;
-
-            container.Start();
-        }
-
-        internal static void CopyTweenEvents(Component source, GameObject target)
-        {
-            foreach (iTweenEvent eachTemplate in source.GetComponentsInChildren<iTweenEvent>())
-            {
-                iTweenEvent iTweenEvent = target.AddComponent<iTweenEvent>();
-                iTweenEvent.tweenName = eachTemplate.tweenName;
-                iTweenEvent.type = eachTemplate.type;
-                iTweenEvent.Values = eachTemplate.Values;
-                iTweenEvent.playAutomatically = eachTemplate.playAutomatically;
-            }
-        }
-
         internal static T DeserializeSaveProxy<T>(string saveProxyData)
         {
             if (string.IsNullOrEmpty(saveProxyData))
@@ -95,6 +59,32 @@ namespace HomeImprovement
             return parent.GetComponentInChildren<Container>();
         }
 
+        internal static GameObject GetParent(Component component)
+        {
+            if (component == null)
+            {
+                return null;
+            }
+
+            return GetParent(component.gameObject);
+        }
+
+        internal static GameObject GetParent(GameObject gameObject)
+        {
+            if (gameObject == null)
+            {
+                return null;
+            }
+
+            Transform parent = gameObject.transform.parent;
+            if (parent == null)
+            {
+                return null;
+            }
+
+            return parent.gameObject;
+        }
+
         internal static string GetPath(GameObject gameObject)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -132,11 +122,7 @@ namespace HomeImprovement
         internal static void SetGuid(GameObject target, string guid)
         {
             ObjectGuid objectGuid = target.GetComponent<ObjectGuid>();
-            if (objectGuid != null)
-            {
-                ObjectGuidManager.UnRegisterGuid(objectGuid.m_Guid);
-            }
-            else
+            if (objectGuid == null)
             {
                 objectGuid = target.AddComponent<ObjectGuid>();
             }
