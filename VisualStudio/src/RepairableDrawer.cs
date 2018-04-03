@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
 using static HomeImprovement.HomeImprovementUtils;
+using static ModComponentMapper.ModUtils;
 
 namespace HomeImprovement
 {
     internal class RepairableDrawer : GameObjectSearchFilter
     {
-        private static RepairableDrawer instance = new RepairableDrawer();
+        private static RepairableDrawer instance;
 
         private RepairableDrawer()
         {
@@ -36,12 +37,13 @@ namespace HomeImprovement
                 return SearchResult.CONTINUE;
             }
 
-            if (gameObject.GetComponent<Container>() != null)
+            Container container = gameObject.GetComponent<Container>();
+            if (container != null && container.enabled)
             {
                 return SearchResult.SKIP_CHILDREN;
             }
 
-            if (gameObject.name.StartsWith("OBJ_DresserDrawer") || gameObject.name.StartsWith("OBJ_DresserTallDrawer"))
+            if (gameObject.name.StartsWith("OBJ_DresserDrawer") || gameObject.name.StartsWith("OBJ_DresserTallDrawer") || gameObject.name.StartsWith("OBJ_MetalFileCabinetDrawer"))
             {
                 return SearchResult.INCLUDE_SKIP_CHILDREN;
             }
@@ -56,14 +58,17 @@ namespace HomeImprovement
 
         internal static void Prepare(GameObject target, Container template, Vector3 referencePoint)
         {
-            RepairableContainer repairable = target.AddComponent<RepairableContainer>();
+            Debug.Log("Preparing " + GetPath(target));
+
+            RepairableContainer repairable = GetOrCreateComponent<RepairableContainer>(target);
             repairable.Template = template.gameObject;
             repairable.ParentContainer = GetParent(repairable.Template);
             repairable.TargetPosition = RepairableContainer.GetTargetPosition(repairable.ParentContainer, referencePoint);
-            repairable.TargetRotation = repairable.Template.transform.localRotation;
-            repairable.RequiresTools = false;
+            repairable.TargetRotation = Quaternion.identity; // repairable.Template.transform.localRotation;
+            repairable.RequiresTools = target.CompareTag("Metal");
 
-            target.AddComponent<BoxCollider>();
+            GetOrCreateComponent<BoxCollider>(target);
+
             target.layer = vp_Layer.Container;
         }
     }

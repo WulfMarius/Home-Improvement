@@ -56,7 +56,21 @@ namespace HomeImprovement
                 return null;
             }
 
-            return parent.GetComponentInChildren<Container>();
+            Container[] containers = parent.GetComponentsInChildren<Container>();
+            if (containers == null)
+            {
+                return null;
+            }
+
+            foreach (Container eachContainer in containers)
+            {
+                if (eachContainer.enabled)
+                {
+                    return eachContainer;
+                }
+            }
+
+            return null;
         }
 
         internal static GameObject GetParent(Component component)

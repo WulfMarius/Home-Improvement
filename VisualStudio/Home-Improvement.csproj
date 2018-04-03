@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="ModComponentMapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Steam\SteamApps\common\TheLongDark\mods\ModComponentMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -51,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\CleanupManager.cs" />
     <Compile Include="src\HomeImprovement.cs" />
+    <Compile Include="src\PaperClutter.cs" />
     <Compile Include="src\PathGameObjectSearchFilter.cs" />
     <Compile Include="src\RepairableContainer.cs" />
     <Compile Include="src\RepairableContainerDefinition.cs" />

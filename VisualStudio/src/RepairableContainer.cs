@@ -17,21 +17,21 @@ namespace HomeImprovement
 
         public override bool ProcessInteraction()
         {
-            if (GameManager.GetWeatherComponent().IsTooDarkForAction(ActionsToBlock.Repair))
+            if (IsTooDarkToRepair())
             {
                 HUDMessage.AddMessage(Localization.Get("GAMEPLAY_RequiresLightToRepair"));
                 GameAudioManager.PlayGUIError();
                 return true;
             }
 
-            if (RequiresTools && !GameManager.GetInventoryComponent().HasNonRuinedItem("GEAR_SimpleTools") && !GameManager.GetInventoryComponent().HasNonRuinedItem("GEAR_HighQualityTools"))
+            if (IsMissingRequiredTools())
             {
                 HUDMessage.AddMessage(Localization.Get("GAMEPLAY_ToolRequiredToForceOpen").Replace("{item-name}", Localization.Get("GAMEPLAY_RadialTools")));
                 GameAudioManager.PlayGUIError();
                 return true;
             }
 
-            this.StartProgressBar("GAMEPLAY_RepairingProgress", "PLAY_REPAIRINGWOOD", 5);
+            this.StartProgressBar("GAMEPLAY_RepairingProgress", GetRepairAudio(), 5);
 
             return true;
         }
@@ -44,13 +44,35 @@ namespace HomeImprovement
                 return Vector3.zero;
             }
 
+            //Debug.Log("all positions: " + string.Join(", ", positions.ConvertAll<string>(position => position.ToString("F3")).ToArray()));
+
             for (int i = 0; i < containerParent.transform.childCount; i++)
             {
                 Transform child = containerParent.transform.GetChild(i);
-                positions.RemoveAll(value => Vector3.Distance(value, child.transform.localPosition) < 0.05f);
+                if (child.gameObject.activeInHierarchy)
+                {
+                    positions.RemoveAll(value => Vector3.Distance(value, child.transform.localPosition) < 0.05f);
+                }
             }
 
+            //Debug.Log("available positions: " + string.Join(", ", positions.ConvertAll<string>(position => position.ToString("F3")).ToArray()));
+            
             return positions.OrderBy(value => Vector3.Distance(relativePosition, value)).FirstOrDefault();
+        }
+
+        internal string GetRepairAudio()
+        {
+            if (this.CompareTag("Wood"))
+            {
+                return "PLAY_REPAIRINGWOOD";
+            }
+
+            if (this.CompareTag("Metal"))
+            {
+                return "PLAY_REPAIRINGMETAL";
+            }
+
+            return "PLAY_REPAIRINGGENERIC";
         }
 
         internal override bool PerformRepair()
@@ -64,9 +86,12 @@ namespace HomeImprovement
             clonedTemplate.transform.localPosition = TargetPosition;
             clonedTemplate.transform.localRotation = TargetRotation;
 
+            Destroy(clonedTemplate.GetComponentInChildren<RepairableContainer>());
+
             Container container = clonedTemplate.GetComponentInChildren<Container>();
             SetGuid(container.gameObject, ContainerGuid);
             SetEmpty(container);
+            container.enabled = true;
 
             RepairManager.AddRepairedContainer(ContainerGuid, this.gameObject, GameManager.m_ActiveScene);
             Destroy(this.gameObject);
@@ -172,7 +197,23 @@ namespace HomeImprovement
                 };
             }
 
+            if (containerParent.name.StartsWith("CONTAINER_MetalFileCabinetA"))
+            {
+                return new List<Vector3>
+                {
+                    new Vector3(-0.031f, 0.857f, -0.001f),
+                    new Vector3(-0.031f, 0.309f, -0.001f),
+                    new Vector3(-0.031f, -0.236f, -0.001f),
+                    new Vector3(-0.031f, -0.774f, -0.001f)
+                };
+            }
+
             return null;
+        }
+
+        private static bool IsTooDarkToRepair()
+        {
+            return GameManager.GetWeatherComponent().IsTooDarkForAction(ActionsToBlock.Repair);
         }
 
         private static void SetEmpty(Container container)
@@ -180,6 +221,11 @@ namespace HomeImprovement
             container.Start();
             container.DestroyAllGear();
             container.MarkAsInspected();
+        }
+
+        private bool IsMissingRequiredTools()
+        {
+            return RequiresTools && !GameManager.GetInventoryComponent().HasNonRuinedItem("GEAR_SimpleTools") && !GameManager.GetInventoryComponent().HasNonRuinedItem("GEAR_HighQualityTools");
         }
     }
 }

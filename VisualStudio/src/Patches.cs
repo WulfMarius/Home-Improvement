@@ -9,6 +9,7 @@ namespace HomeImprovement
         public static void Postfix()
         {
             RepairManager.PrepareRepairables();
+            CleanupManager.PrepareCleanables();
         }
     }
 

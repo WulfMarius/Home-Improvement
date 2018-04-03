@@ -63,7 +63,11 @@ namespace HomeImprovement
             repairable.TargetRotation = repairable.Template.transform.localRotation;
             repairable.RequiresTools = true;
 
-            target.AddComponent<BoxCollider>();
+            if (target.GetComponent<Collider>() == null)
+            {
+                target.AddComponent<BoxCollider>();
+            }
+
             target.layer = vp_Layer.Container;
         }
     }

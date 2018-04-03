@@ -34,6 +34,26 @@ namespace HomeImprovement
             }
         }
 
+        public void DegradeTools()
+        {
+            if (RequiresTools)
+            {
+                GearItem tools = GameManager.GetInventoryComponent().GetBestGearItemWithName("GEAR_SimpleTools");
+                if (tools != null)
+                {
+                    tools.DegradeOnUse();
+                    return;
+                }
+
+                tools = GameManager.GetInventoryComponent().GetBestGearItemWithName("GEAR_HighQualityTools");
+                if (tools != null)
+                {
+                    tools.DegradeOnUse();
+                    return;
+                }
+            }
+        }
+
         internal void StartProgressBar(string displayTextKey, string audio, float seconds)
         {
             InterfaceManager.m_Panel_GenericProgressBar.Launch(Localization.Get(displayTextKey), seconds, 5, 0.0f, audio, null, true, true, this.OnRepairedFinished);
@@ -44,6 +64,7 @@ namespace HomeImprovement
             if (success)
             {
                 this.Repair();
+                this.DegradeTools();
             }
         }
 

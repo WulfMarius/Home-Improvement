@@ -92,28 +92,33 @@ namespace HomeImprovement
             }
 
             RepairableContainerDefinition[] repairableContainerDefinition = definitions.GetDefinitions(GameManager.m_ActiveScene);
+            Debug.Log("Found " + repairableContainerDefinition.Length + " definitions for scene " + GameManager.m_ActiveScene);
             foreach (RepairableContainerDefinition eachDefinition in repairableContainerDefinition)
             {
                 GameObject target = FindGameObject(eachDefinition.Target.Path, eachDefinition.Target.Position);
                 if (target == null)
                 {
+                    Debug.Log("Could not find target of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
                     continue;
                 }
 
                 GameObject template = FindGameObject(eachDefinition.Template.Path, eachDefinition.Template.Position);
                 if (template == null)
                 {
+                    Debug.Log("Could not find template of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
                     continue;
                 }
 
                 Container container = template.GetComponent<Container>();
                 if (container == null)
                 {
+                    Debug.Log("Could not find container of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
                     continue;
                 }
 
                 if ("CabinetDoor" == eachDefinition.Type)
                 {
+                    Debug.Log("Preparing " + GetPath(target));
                     RepairableCabinetDoor.Prepare(target, container, eachDefinition.Reference);
                     count++;
                 }

@@ -11,7 +11,6 @@ namespace HomeImprovement
         public Vector3 Position;
     }
 
-
     public class RepairableContainerDefinition
     {
         public Vector3 Reference;

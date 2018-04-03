@@ -115,6 +115,70 @@
 				"Reference": [0.107, 0.973, 0.510],
 				"Type": "Drawer"
 			}
+		],
+		"FarmHouseB": [
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorB_Prefab/OBJ_KitchenCabinetDoorB_LOD0",
+					"Position": [3.119, 2.197, 5.694]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetD3/Hinge/OBJ_KitchenCabinetDoorB",
+					"Position": [3.271, 2.196, 4.404]
+				},
+				"Reference": [-0.409, -0.025, 0.862],
+				"Type": "CabinetDoor"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorB_Prefab (1)/OBJ_KitchenCabinetDoorB_LOD0",
+					"Position": [2.203, 0.056, 4.081]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetASink/Hinge/OBJ_KitchenCabinetDoorC",
+					"Position": [2.787, 0.615, 3.466]
+				},
+				"Reference": [-0.473, 0.613, -0.503],
+				"Type": "CabinetDoor"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo/OBJ_KitchenCabinetDoorB_Prefab (2)/OBJ_KitchenCabinetDoorB_LOD0",
+					"Position": [2.027, 1.152, 5.825]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_KitchenCabinetD3/Hinge/OBJ_KitchenCabinetDoorB",
+					"Position": [3.271, 2.196, 4.404]
+				},
+				"Reference": [-0.409, -0.025, 0.253],
+				"Type": "CabinetDoor"
+			}
+		],
+		"Dam": [
+			{
+				"Target": {
+					"Path": "/Root/Art/Geo_B/OBJ_MetalFileCabinetDrawerA2_Prefab (3)/OBJ_MetalFileCabinetDrawerA2_LOD0",
+					"Position": [-10.646, 0.190, -18.048]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_MetalFileCabinetA/CONTAINER_MetalFileCabinetA/OBJ_MetalFileCabinetDrawerA3",
+					"Position": [-12.177, 0.711, -17.950]
+				},
+				"Reference": [-0.031, 0.857, -0.001],
+				"Type": "Drawer"
+			},
+			{
+				"Target": {
+					"Path": "/Root/Design/Containers/CONTAINER_MetalFileCabinetA (6)/CONTAINER_MetalFileCabinetA/OBJ_MetalFileCabinetDrawerA3",
+					"Position": [-14.484, 4.814, -9.736]
+				},
+				"Template": {
+					"Path": "/Root/Design/Containers/CONTAINER_MetalFileCabinetA (4)/CONTAINER_MetalFileCabinetA/OBJ_MetalFileCabinetDrawerA3",
+					"Position": [-15.080, 5.306, -7.753]
+				},
+				"Reference": [-0.031, 0.309, -0.001],
+				"Type": "Drawer"
+			}
 		]
 	}
 }
