@@ -1,0 +1,31 @@
+﻿[
+	{
+		"name": "Home-Improvement",
+		"version": "2.0.2",
+		"dependencies": [
+			{
+				"name": "ModComponent",
+				"version": "^2.0.1"
+			}
+		],
+		"assets": [
+			"https://github.com/WulfMarius/Home-Improvement/releases/download/2.0.2/Home-Improvement-V2.0.2.zip"
+		]
+	},
+	{
+		"name": "Home-Improvement",
+		"version": "2.0.1",
+		"dependencies": [],
+		"assets": [
+			"https://github.com/WulfMarius/Home-Improvement/releases/download/2.0.1/Home-Improvement-V2.0.1.zip"
+		]
+	},
+	{
+		"name": "Home-Improvement",
+		"version": "2.0.0",
+		"dependencies": [],
+		"assets": [
+			"https://github.com/WulfMarius/Home-Improvement/releases/download/2.0.0/Home-Improvement-V2.0.0.zip"
+		]
+	}
+]
