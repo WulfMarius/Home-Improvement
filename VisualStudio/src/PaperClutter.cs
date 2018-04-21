@@ -36,12 +36,11 @@ namespace HomeImprovement
                 return SearchResult.SKIP_CHILDREN;
             }
 
-            //if (gameObject.GetComponent<Renderer>() == null)
-            //{
-            //    return SearchResult.CONTINUE;
-            //}
+            if ("Moose" == gameObject.name)
+            {
+                return SearchResult.SKIP_CHILDREN;
+            }
 
-            // OBJ_ClipBoard_LOD0
             if (gameObject.name.StartsWith("OBJ_PaperDebris") || gameObject.name.StartsWith("OBJ_PaperDeco") || gameObject.name.StartsWith("OBJ_WallDecoPatterned") || gameObject.name.StartsWith("OBJ_CalendarDeco") || gameObject.name.StartsWith("Decal-"))
             {
                 return SearchResult.INCLUDE_SKIP_CHILDREN;
