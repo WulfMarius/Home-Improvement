@@ -1,4 +1,4 @@
-﻿{
+{
 	"name": "Home-Improvement",
 	"description": "Improve your home by performing repairs and cleaning up.",
 	"url": "https://github.com/WulfMarius/Home-Improvement",
@@ -36,6 +36,14 @@
 			"assets": [
 				{
 					"url": "https://github.com/WulfMarius/Home-Improvement/releases/download/2.0.2/Home-Improvement-V2.0.2.zip"
+				}
+			]
+		}, {
+			"version": "2.0.3",
+			"dependencies": [
+				{
+					"name": "ModComponent",
+					"version": "^2.0.1"
 				}
 			]
 		}
