@@ -1,4 +1,4 @@
-Key, English, German
-GAMEPLAY_CrumpledPaper, "Crumpled Paper", "Zerknülltes Papier"
-GAMEPLAY_CrumpledPapers, "Crumpled Papers", "Zerknüllte Papiere"
-GAMEPLAY_CrumpledPaperDescription, "Little bits and pieces of crumpled paper.", "Kleine Stückchen zerknülltes Papier."
+Key, English, German, Russian
+GAMEPLAY_CrumpledPaper, "Crumpled Paper", "Zerknülltes Papier", "Скомканная бумага" 
+GAMEPLAY_CrumpledPapers, "Crumpled Papers", "Zerknüllte Papiere", "Скомканная бумага" 
+GAMEPLAY_CrumpledPaperDescription, "Little bits and pieces of crumpled paper.", "Kleine Stückchen zerknülltes Papier.", "Кусочки мятой бумаги." 
