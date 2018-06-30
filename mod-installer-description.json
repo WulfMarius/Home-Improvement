@@ -46,6 +46,14 @@
 					"version": "^2.0.1"
 				}
 			]
+		}, {
+			"version": "2.0.4",
+			"dependencies": [
+				{
+					"name": "ModComponent",
+					"version": "^2.0.1"
+				}
+			]
 		}
 	]
 }
