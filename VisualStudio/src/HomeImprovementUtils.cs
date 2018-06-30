@@ -120,7 +120,7 @@ namespace HomeImprovement
         {
             List<GameObject> result = new List<GameObject>();
 
-            Scene scene = SceneManager.GetActiveScene();
+            Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 
             if (scene != null)
             {

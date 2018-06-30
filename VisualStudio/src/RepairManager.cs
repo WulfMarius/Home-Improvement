@@ -118,7 +118,6 @@ namespace HomeImprovement
 
                 if ("CabinetDoor" == eachDefinition.Type)
                 {
-                    Debug.Log("Preparing " + GetPath(target));
                     RepairableCabinetDoor.Prepare(target, container, eachDefinition.Reference);
                     count++;
                 }

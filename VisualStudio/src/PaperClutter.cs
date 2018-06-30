@@ -41,10 +41,20 @@ namespace HomeImprovement
                 return SearchResult.SKIP_CHILDREN;
             }
 
-            if (gameObject.name.StartsWith("OBJ_PaperDebris") || gameObject.name.StartsWith("OBJ_PaperDeco") || gameObject.name.StartsWith("OBJ_WallDecoPatterned") || gameObject.name.StartsWith("OBJ_CalendarDeco") || gameObject.name.StartsWith("Decal-"))
+            if (gameObject.name.StartsWith("OBJ_PaperDebris") || gameObject.name.StartsWith("OBJ_PaperDeco") || gameObject.name.StartsWith("OBJ_WallDecoPatterned") || gameObject.name.StartsWith("OBJ_CalendarDeco"))
             {
                 return SearchResult.INCLUDE_SKIP_CHILDREN;
             }
+
+            qd_Decal decal = gameObject.GetComponent<qd_Decal>();
+            if (decal)
+            {
+                if (decal.texture.name.StartsWith("FX_DebrisPaper") || decal.texture.name.StartsWith("FX_DebrisMail"))
+                {
+                    return SearchResult.INCLUDE_SKIP_CHILDREN;
+                }
+            }
+
 
             return SearchResult.CONTINUE;
         }
@@ -69,6 +79,7 @@ namespace HomeImprovement
             }
 
             GameObject collisionObject = new GameObject();
+            collisionObject.name = "PaperDecalRemover-" + gameObject.name.Substring("Decal-".Length);
             collisionObject.transform.parent = gameObject.transform.parent;
             collisionObject.transform.position = gameObject.transform.position;
 

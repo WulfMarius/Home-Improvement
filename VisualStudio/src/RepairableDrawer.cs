@@ -58,13 +58,11 @@ namespace HomeImprovement
 
         internal static void Prepare(GameObject target, Container template, Vector3 referencePoint)
         {
-            Debug.Log("Preparing " + GetPath(target));
-
             RepairableContainer repairable = GetOrCreateComponent<RepairableContainer>(target);
             repairable.Template = template.gameObject;
             repairable.ParentContainer = GetParent(repairable.Template);
             repairable.TargetPosition = RepairableContainer.GetTargetPosition(repairable.ParentContainer, referencePoint);
-            repairable.TargetRotation = Quaternion.identity; // repairable.Template.transform.localRotation;
+            repairable.TargetRotation = Quaternion.identity;
             repairable.RequiresTools = target.CompareTag("Metal");
 
             GetOrCreateComponent<BoxCollider>(target);
