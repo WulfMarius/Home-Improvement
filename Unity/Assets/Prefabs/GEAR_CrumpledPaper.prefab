@@ -113,6 +113,7 @@ MonoBehaviour:
   Radial: 0
   DisplayNameLocalizationId: GAMEPLAY_CrumpledPaper
   DescriptionLocalizatonId: GAMEPLAY_CrumpledPaperDescription
+  InventoryCategory: 0
   InventoryActionLocalizationId: 
   PickUpAudio: PLAY_SNDINVPAPER
   StowAudio: Play_InventoryStow
@@ -153,5 +154,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BurningMinutes: 1
   BurningMinutesBeforeAllowedToAdd: 0
-  SuccessModifier: 25
+  SuccessModifier: 30
   TempIncrease: 0.1

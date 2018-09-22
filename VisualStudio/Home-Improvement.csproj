@@ -33,37 +33,44 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Harmony, Version=1.0.9.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="ModComponentAPI, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="ModComponentMapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\SteamApps\common\TheLongDark\mods\ModComponentMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ModSettings, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\CleanupManager.cs" />
     <Compile Include="src\HomeImprovement.cs" />
+    <Compile Include="src\modsettings\HomeImprovementSettings.cs" />
+    <Compile Include="src\CorpseClutter.cs" />
     <Compile Include="src\PaperClutter.cs" />
     <Compile Include="src\PathGameObjectSearchFilter.cs" />
     <Compile Include="src\RepairableContainer.cs" />
     <Compile Include="src\RepairableContainerDefinition.cs" />
     <Compile Include="src\RepairableDrawer.cs" />
     <Compile Include="src\GameObjectSearchFilter.cs" />
-    <Compile Include="src\Patches.cs" />
+    <Compile Include="src\patches\Patches.cs" />
     <Compile Include="src\Repairable.cs" />
     <Compile Include="src\RepairableCabinetDoor.cs" />
     <Compile Include="src\RepairedContainer.cs" />

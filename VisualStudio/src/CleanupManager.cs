@@ -14,14 +14,43 @@ namespace HomeImprovement
 
             int count = 0;
 
+            count += PreparePaper();
+            count += PrepareCorpses();
+
+            stopwatch.Stop();
+            Log("Prepared " + count + " cleanables(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+        }
+
+        private static int PreparePaper()
+        {
+            int count = 0;
+
             foreach (GameObject eachPaperClutter in GetSceneObjects(PaperClutter.FilterInstance))
             {
                 PaperClutter.Prepare(eachPaperClutter);
                 count++;
             }
 
-            stopwatch.Stop();
-            Log("Prepared " + count + " cleanables(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            return count;
+        }
+
+        private static int PrepareCorpses()
+        {
+            if (!HomeImprovement.RemovableCorpses)
+            {
+                return 0;
+            }
+
+            int count = 0;
+
+            foreach (GameObject eachCorpseClutter in GetSceneObjects(CorpseClutter.FilterInstance))
+            {
+                Debug.Log("Preparing Corpse " + eachCorpseClutter);
+                CorpseClutter.Prepare(eachCorpseClutter);
+                count++;
+            }
+
+            return count;
         }
     }
 }

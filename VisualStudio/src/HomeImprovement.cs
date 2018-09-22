@@ -1,11 +1,19 @@
-﻿using UnityEngine;
+﻿using Harmony;
+using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace HomeImprovement
 {
     public class HomeImprovement
     {
         private static string name;
+        private static HomeImprovementSettings settings;
+
+        internal static bool RemovableCorpses
+        {
+            get { return settings.RemovableCorpses; }
+        }
 
         public static void OnLoad()
         {
@@ -15,6 +23,9 @@ namespace HomeImprovement
             Log("Version " + assemblyName.Version);
 
             RepairManager.Initialize();
+
+            settings = HomeImprovementSettings.Load();
+            settings.AddToModSettings("Home-Improvement", ModSettings.MenuType.MainMenuOnly);
         }
 
         internal static void Log(string message)
