@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HomeImprovement
 {
-    [HarmonyPatch(typeof(GameManager), "Start")]
-    internal class GameManager_Awake
+    [HarmonyPatch(typeof(Panel_Loading), "OnDisable")]
+    internal class Panel_Loading_OnDisable
     {
         public static void Postfix()
         {

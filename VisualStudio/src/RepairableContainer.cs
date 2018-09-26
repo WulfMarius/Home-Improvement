@@ -44,8 +44,6 @@ namespace HomeImprovement
                 return Vector3.zero;
             }
 
-            //Debug.Log("all positions: " + string.Join(", ", positions.ConvertAll<string>(position => position.ToString("F3")).ToArray()));
-
             for (int i = 0; i < containerParent.transform.childCount; i++)
             {
                 Transform child = containerParent.transform.GetChild(i);
@@ -54,8 +52,6 @@ namespace HomeImprovement
                     positions.RemoveAll(value => Vector3.Distance(value, child.transform.localPosition) < 0.05f);
                 }
             }
-
-            //Debug.Log("available positions: " + string.Join(", ", positions.ConvertAll<string>(position => position.ToString("F3")).ToArray()));
             
             return positions.OrderBy(value => Vector3.Distance(relativePosition, value)).FirstOrDefault();
         }

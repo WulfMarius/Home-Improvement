@@ -43,7 +43,7 @@
     <Reference Include="ModComponentMapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="ModSettings, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ModSettings, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />

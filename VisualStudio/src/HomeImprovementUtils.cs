@@ -120,11 +120,9 @@ namespace HomeImprovement
         {
             List<GameObject> result = new List<GameObject>();
 
-            Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-
-            if (scene != null)
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
             {
-                foreach (GameObject eachRoot in scene.GetRootGameObjects())
+                foreach (GameObject eachRoot in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
                 {
                     FindChildren(eachRoot, result, filter);
                 }

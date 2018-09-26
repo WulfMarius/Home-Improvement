@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using static HomeImprovement.HomeImprovement;
 using static HomeImprovement.HomeImprovementUtils;
@@ -45,7 +46,6 @@ namespace HomeImprovement
 
             foreach (GameObject eachCorpseClutter in GetSceneObjects(CorpseClutter.FilterInstance))
             {
-                Debug.Log("Preparing Corpse " + eachCorpseClutter);
                 CorpseClutter.Prepare(eachCorpseClutter);
                 count++;
             }
