@@ -78,6 +78,17 @@
 					"version": "^v1.2"
 				}
 			]
-		}
+		}, {
+			"version": "2.1.2",
+			"dependencies": [
+				{
+					"name": "ModComponent",
+					"version": "^2.4.0"
+				},
+				{
+					"name": "ModSettings",
+					"version": "^v1.2"
+				}
+			]		}
 	]
 }
