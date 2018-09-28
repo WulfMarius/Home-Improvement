@@ -8,25 +8,25 @@ namespace HomeImprovement
 {
     public class CleanupManager
     {
-        internal static void PrepareCleanables()
+        internal static void PrepareCleanables(Scene scene)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
             int count = 0;
 
-            count += PreparePaper();
-            count += PrepareCorpses();
+            count += PreparePaper(scene);
+            count += PrepareCorpses(scene);
 
             stopwatch.Stop();
-            Log("Prepared " + count + " cleanables(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            Log("Prepared " + count + " cleanables(s) in scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
-        private static int PreparePaper()
+        private static int PreparePaper(Scene scene)
         {
             int count = 0;
 
-            foreach (GameObject eachPaperClutter in GetSceneObjects(PaperClutter.FilterInstance))
+            foreach (GameObject eachPaperClutter in GetSceneObjects(scene, PaperClutter.FilterInstance))
             {
                 PaperClutter.Prepare(eachPaperClutter);
                 count++;
@@ -35,7 +35,7 @@ namespace HomeImprovement
             return count;
         }
 
-        private static int PrepareCorpses()
+        private static int PrepareCorpses(Scene scene)
         {
             if (!HomeImprovement.RemovableCorpses)
             {
@@ -44,7 +44,7 @@ namespace HomeImprovement
 
             int count = 0;
 
-            foreach (GameObject eachCorpseClutter in GetSceneObjects(CorpseClutter.FilterInstance))
+            foreach (GameObject eachCorpseClutter in GetSceneObjects(scene, CorpseClutter.FilterInstance))
             {
                 CorpseClutter.Prepare(eachCorpseClutter);
                 count++;

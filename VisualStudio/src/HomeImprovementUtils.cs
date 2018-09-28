@@ -116,16 +116,13 @@ namespace HomeImprovement
             return stringBuilder.ToString();
         }
 
-        internal static List<GameObject> GetSceneObjects(GameObjectSearchFilter filter)
+        internal static List<GameObject> GetSceneObjects(Scene scene, GameObjectSearchFilter filter)
         {
             List<GameObject> result = new List<GameObject>();
 
-            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            foreach (GameObject eachRoot in scene.GetRootGameObjects())
             {
-                foreach (GameObject eachRoot in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
-                {
-                    FindChildren(eachRoot, result, filter);
-                }
+                FindChildren(eachRoot, result, filter);
             }
 
             return result;

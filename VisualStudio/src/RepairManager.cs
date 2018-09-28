@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using static HomeImprovement.HomeImprovement;
 using static HomeImprovement.HomeImprovementUtils;
@@ -64,14 +65,14 @@ namespace HomeImprovement
             Log("Loaded " + loadedRepairedContainers.containers.Count + " repair(s) for scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
-        internal static void PrepareRepairables()
+        internal static void PrepareRepairables(Scene scene)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
             int count = 0;
 
-            foreach (GameObject eachRepairableDrawer in GetSceneObjects(RepairableDrawer.FilterInstance))
+            foreach (GameObject eachRepairableDrawer in GetSceneObjects(scene, RepairableDrawer.FilterInstance))
             {
                 Container template = FindContainerTemplate(eachRepairableDrawer);
                 if (template != null)
@@ -81,7 +82,7 @@ namespace HomeImprovement
                 }
             }
 
-            foreach (GameObject eachRepairableCabinetDoor in GetSceneObjects(RepairableCabinetDoor.FilterInstance))
+            foreach (GameObject eachRepairableCabinetDoor in GetSceneObjects(scene, RepairableCabinetDoor.FilterInstance))
             {
                 Container template = FindContainerTemplate(eachRepairableCabinetDoor);
                 if (template != null)
@@ -133,7 +134,7 @@ namespace HomeImprovement
             }
 
             stopwatch.Stop();
-            Log("Prepared " + count + " repairable(s) in scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            Log("Prepared " + count + " repairable(s) in scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
         internal static void SaveRepairs(SaveSlotType gameMode, string saveName, string sceneSaveName)
@@ -148,8 +149,18 @@ namespace HomeImprovement
 
         private static GameObject FindGameObject(string path, Vector3 position)
         {
-            List<GameObject> targets = GetSceneObjects(new PathGameObjectSearchFilter(path));
-            return targets.Find(target => Vector3.Distance(target.transform.position, position) < 0.05f);
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            {
+                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+
+                List<GameObject> targets = GetSceneObjects(scene, new PathGameObjectSearchFilter(path, position));
+                if (targets.Count > 0)
+                {
+                    return targets[0];
+                }
+            }
+
+            return null;
         }
 
         private static void RestoreRepairedContainer(RepairedContainer repairedContainer)

@@ -5,10 +5,12 @@ namespace HomeImprovement
     public class PathGameObjectSearchFilter : GameObjectSearchFilter
     {
         private string targetPath;
+        private Vector3 targetPosition;
 
-        public PathGameObjectSearchFilter(string targetPath)
+        public PathGameObjectSearchFilter(string targetPath, Vector3 targetPosition)
         {
             this.targetPath = targetPath;
+            this.targetPosition = targetPosition;
         }
 
         public override SearchResult Filter(GameObject gameObject)
@@ -20,7 +22,7 @@ namespace HomeImprovement
                 return SearchResult.SKIP_CHILDREN;
             }
 
-            if (targetPath.Equals(path))
+            if (targetPath.Equals(path) && Vector3.Distance(gameObject.transform.position, targetPosition) < 0.05f)
             {
                 return SearchResult.INCLUDE_SKIP_CHILDREN;
             }

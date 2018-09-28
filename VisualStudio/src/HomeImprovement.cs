@@ -1,7 +1,6 @@
-﻿using Harmony;
-using System;
-using System.Reflection;
+﻿using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace HomeImprovement
 {
@@ -26,11 +25,24 @@ namespace HomeImprovement
 
             settings = HomeImprovementSettings.Load();
             settings.AddToModSettings("Home-Improvement", ModSettings.MenuType.MainMenuOnly);
+
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += PrepareScene;
         }
 
         internal static void Log(string message)
         {
             Debug.Log("[" + name + "] " + message);
+        }
+
+        internal static void PrepareScene(Scene scene, LoadSceneMode mode)
+        {
+            if (GameManager.m_ActiveScene == null)
+            {
+                return;
+            }
+
+            RepairManager.PrepareRepairables(scene);
+            CleanupManager.PrepareCleanables(scene);
         }
     }
 }
