@@ -136,7 +136,7 @@ namespace HomeImprovement
                 objectGuid = target.AddComponent<ObjectGuid>();
             }
 
-            objectGuid.m_Guid = guid;
+            objectGuid.Restore(guid);
             ObjectGuidManager.RegisterGuid(guid, target);
         }
     }

@@ -8,6 +8,10 @@ namespace HomeImprovement
 {
     internal class HomeImprovementSettings : ModSettingsBase
     {
+        [Name("Removable Campfires")]
+        [Description("If enabled campfires will be removed when taking their charcoal.")]
+        public bool RemovableCampfires = false;
+
         [Name("Removable Corpses")]
         [Description("If enabled corpses can be removed with a right click.")]
         public bool RemovableCorpses = false;

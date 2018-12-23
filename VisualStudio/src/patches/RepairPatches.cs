@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace HomeImprovement
 {

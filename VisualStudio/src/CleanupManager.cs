@@ -19,7 +19,7 @@ namespace HomeImprovement
             count += PrepareCorpses(scene);
 
             stopwatch.Stop();
-            Log("Prepared " + count + " cleanables(s) in scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            Log("Prepared " + count + " cleanable(s) for scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
         private static int PreparePaper(Scene scene)

@@ -92,28 +92,28 @@ namespace HomeImprovement
                 }
             }
 
-            RepairableContainerDefinition[] repairableContainerDefinition = definitions.GetDefinitions(GameManager.m_ActiveScene);
-            Debug.Log("Found " + repairableContainerDefinition.Length + " definitions for scene " + GameManager.m_ActiveScene);
+            RepairableContainerDefinition[] repairableContainerDefinition = definitions.GetDefinitions(scene.name);
+            Log("Found " + repairableContainerDefinition.Length + " definitions for scene " + scene.name);
             foreach (RepairableContainerDefinition eachDefinition in repairableContainerDefinition)
             {
                 GameObject target = FindGameObject(eachDefinition.Target.Path, eachDefinition.Target.Position);
                 if (target == null)
                 {
-                    Debug.Log("Could not find target of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
+                    Log("Could not find target of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
                     continue;
                 }
 
                 GameObject template = FindGameObject(eachDefinition.Template.Path, eachDefinition.Template.Position);
                 if (template == null)
                 {
-                    Debug.Log("Could not find template of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
+                    Log("Could not find template of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
                     continue;
                 }
 
                 Container container = template.GetComponent<Container>();
                 if (container == null)
                 {
-                    Debug.Log("Could not find container of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
+                    Log("Could not find container of definition for " + eachDefinition.Target.Path + " @" + eachDefinition.Target.Position.ToString("F3"));
                     continue;
                 }
 
@@ -134,7 +134,7 @@ namespace HomeImprovement
             }
 
             stopwatch.Stop();
-            Log("Prepared " + count + " repairable(s) in scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            Log("Prepared " + count + " repairable(s) for scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
         internal static void SaveRepairs(SaveSlotType gameMode, string saveName, string sceneSaveName)

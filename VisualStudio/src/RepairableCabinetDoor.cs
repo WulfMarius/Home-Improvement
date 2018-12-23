@@ -56,6 +56,11 @@ namespace HomeImprovement
 
         internal static void Prepare(GameObject target, Container template, Vector3 referencePoint)
         {
+            if (target.GetComponent<RepairableContainer>() != null)
+            {
+                return;
+            }
+
             RepairableContainer repairable = target.AddComponent<RepairableContainer>();
             repairable.Template = GetParent(template);
             repairable.ParentContainer = GetParent(repairable.Template);

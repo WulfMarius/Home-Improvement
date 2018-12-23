@@ -31,32 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Harmony, Version=1.0.9.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ModComponentAPI, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ModComponentMapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ModSettings, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Reference Include="0Harmony" />
+    <Reference Include="Assembly-CSharp" />
+    <Reference Include="ModComponentAPI" />
+    <Reference Include="ModComponentMapper" />
+    <Reference Include="ModSettings" />
     <Reference Include="System" />
-    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\SteamApps\common\TheLongDark\tld_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Reference Include="UnityEngine.CoreModule" />
+    <Reference Include="UnityEngine.JSONSerializeModule" />
+    <Reference Include="UnityEngine.PhysicsModule" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,12 +48,13 @@
     <Compile Include="src\modsettings\HomeImprovementSettings.cs" />
     <Compile Include="src\CorpseClutter.cs" />
     <Compile Include="src\PaperClutter.cs" />
+    <Compile Include="src\patches\RemoveCampfirePatches.cs" />
     <Compile Include="src\PathGameObjectSearchFilter.cs" />
     <Compile Include="src\RepairableContainer.cs" />
     <Compile Include="src\RepairableContainerDefinition.cs" />
     <Compile Include="src\RepairableDrawer.cs" />
     <Compile Include="src\GameObjectSearchFilter.cs" />
-    <Compile Include="src\patches\Patches.cs" />
+    <Compile Include="src\patches\RepairPatches.cs" />
     <Compile Include="src\Repairable.cs" />
     <Compile Include="src\RepairableCabinetDoor.cs" />
     <Compile Include="src\RepairedContainer.cs" />
