@@ -1,0 +1,14 @@
+{
+	"RequiredGear": ["GEAR_CrumpledPaper"],
+	"RequiredGearUnits": [5],
+	"KeroseneLitersRequired": 0,
+	"RequiredTool": null,
+	"OptionalTools": [],
+	"RequiresForge": false,
+	"RequiresWorkbench": false,
+	"RequiresLight": true,
+	"CraftedResult": "GEAR_Tinder",
+	"CraftedResultCount": 1,
+	"DurationMinutes": 5,
+	"CraftingAudio": "PLAY_HarvestingPaper"
+}
