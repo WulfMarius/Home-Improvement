@@ -26,7 +26,7 @@ namespace HomeImprovement
 
         public override SearchResult Filter(GameObject gameObject)
         {
-            if (gameObject.layer == vp_Layer.Gear)
+            if (!gameObject.activeInHierarchy || gameObject.layer == vp_Layer.Gear)
             {
                 return SearchResult.SKIP_CHILDREN;
             }

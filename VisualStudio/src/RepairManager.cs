@@ -16,8 +16,14 @@ namespace HomeImprovement
     {
         private const string REPAIRED_CONTAINERS_SUFFIX = "-RepairedContainers";
 
-        private static RepairedContainers repairedContainers = new RepairedContainers();
         private static RepairableContainerDefinitions definitions;
+        private static RepairedContainers repairedContainers = new RepairedContainers();
+
+        internal static void AddRepairedContainer(string guid, GameObject repairableContainer, string scene)
+        {
+            RepairedContainer repairedContainer = new RepairedContainer(scene, GetPath(repairableContainer), repairableContainer.transform.position, guid);
+            repairedContainers.AddRepairedContainer(repairedContainer);
+        }
 
         internal static void Initialize()
         {
@@ -31,12 +37,6 @@ namespace HomeImprovement
             {
                 definitions = new RepairableContainerDefinitions();
             }
-        }
-
-        internal static void AddRepairedContainer(string guid, GameObject repairableContainer, string scene)
-        {
-            RepairedContainer repairedContainer = new RepairedContainer(scene, GetPath(repairableContainer), repairableContainer.transform.position, guid);
-            repairedContainers.AddRepairedContainer(repairedContainer);
         }
 
         internal static void LoadRepairs(string saveName, string sceneSaveName)
@@ -65,35 +65,60 @@ namespace HomeImprovement
             Log("Loaded " + loadedRepairedContainers.containers.Count + " repair(s) for scene '" + GameManager.m_ActiveScene + "' in " + stopwatch.ElapsedMilliseconds + " ms");
         }
 
-        internal static void PrepareRepairables(Scene scene)
+        internal static void PrepareRepairables()
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
             int count = 0;
 
-            foreach (GameObject eachRepairableDrawer in GetSceneObjects(scene, RepairableDrawer.FilterInstance))
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
             {
-                Container template = FindContainerTemplate(eachRepairableDrawer);
-                if (template != null)
+                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+
+                count += PrepareDrawers(scene);
+                count += PrepareDoors(scene);
+            }
+
+            count += PrepareDefinitions(GameManager.m_ActiveScene);
+
+            stopwatch.Stop();
+            Log("Prepared {0} repairable(s) for scene '{1}' in {2} ms", count, GameManager.m_ActiveScene, stopwatch.ElapsedMilliseconds);
+        }
+
+        internal static void SaveRepairs(SaveSlotType gameMode, string saveName, string sceneSaveName)
+        {
+            string saveProxyData = Utils.SerializeObject(new SaveProxy()
+            {
+                data = Utils.SerializeObject(repairedContainers)
+            });
+
+            SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveName, sceneSaveName + REPAIRED_CONTAINERS_SUFFIX, saveProxyData);
+        }
+
+        private static GameObject FindGameObject(string path, Vector3 position)
+        {
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            {
+                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+
+                List<GameObject> targets = GetSceneObjects(scene, new PathGameObjectSearchFilter(path, position));
+                if (targets.Count > 0)
                 {
-                    RepairableDrawer.Prepare(eachRepairableDrawer, template);
-                    count++;
+                    return targets[0];
                 }
             }
 
-            foreach (GameObject eachRepairableCabinetDoor in GetSceneObjects(scene, RepairableCabinetDoor.FilterInstance))
-            {
-                Container template = FindContainerTemplate(eachRepairableCabinetDoor);
-                if (template != null)
-                {
-                    RepairableCabinetDoor.Prepare(eachRepairableCabinetDoor, template);
-                    count++;
-                }
-            }
+            return null;
+        }
 
-            RepairableContainerDefinition[] repairableContainerDefinition = definitions.GetDefinitions(scene.name);
-            Log("Found " + repairableContainerDefinition.Length + " definitions for scene " + scene.name);
+        private static int PrepareDefinitions(string sceneName)
+        {
+            int count = 0;
+
+            RepairableContainerDefinition[] repairableContainerDefinition = definitions.GetDefinitions(sceneName);
+            Log("Found " + repairableContainerDefinition.Length + " definitions for scene " + sceneName);
+
             foreach (RepairableContainerDefinition eachDefinition in repairableContainerDefinition)
             {
                 GameObject target = FindGameObject(eachDefinition.Target.Path, eachDefinition.Target.Position);
@@ -133,34 +158,41 @@ namespace HomeImprovement
                 }
             }
 
-            stopwatch.Stop();
-            Log("Prepared " + count + " repairable(s) for scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
+            return count;
         }
 
-        internal static void SaveRepairs(SaveSlotType gameMode, string saveName, string sceneSaveName)
+        private static int PrepareDoors(Scene scene)
         {
-            string saveProxyData = Utils.SerializeObject(new SaveProxy()
+            int count = 0;
+
+            foreach (GameObject eachRepairableCabinetDoor in GetSceneObjects(scene, RepairableCabinetDoor.FilterInstance))
             {
-                data = Utils.SerializeObject(repairedContainers)
-            });
-
-            SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, saveName, sceneSaveName + REPAIRED_CONTAINERS_SUFFIX, saveProxyData);
-        }
-
-        private static GameObject FindGameObject(string path, Vector3 position)
-        {
-            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
-            {
-                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
-
-                List<GameObject> targets = GetSceneObjects(scene, new PathGameObjectSearchFilter(path, position));
-                if (targets.Count > 0)
+                Container template = FindContainerTemplate(eachRepairableCabinetDoor);
+                if (template != null)
                 {
-                    return targets[0];
+                    RepairableCabinetDoor.Prepare(eachRepairableCabinetDoor, template);
+                    count++;
                 }
             }
 
-            return null;
+            return count;
+        }
+
+        private static int PrepareDrawers(Scene scene)
+        {
+            int count = 0;
+
+            foreach (GameObject eachRepairableDrawer in GetSceneObjects(scene, RepairableDrawer.FilterInstance))
+            {
+                Container template = FindContainerTemplate(eachRepairableDrawer);
+                if (template != null)
+                {
+                    RepairableDrawer.Prepare(eachRepairableDrawer, template);
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         private static void RestoreRepairedContainer(RepairedContainer repairedContainer)

@@ -26,17 +26,7 @@ namespace HomeImprovement
 
         public override SearchResult Filter(GameObject gameObject)
         {
-            if (gameObject.layer == vp_Layer.Gear)
-            {
-                return SearchResult.SKIP_CHILDREN;
-            }
-
-            if (gameObject.GetComponent<Container>() != null)
-            {
-                return SearchResult.SKIP_CHILDREN;
-            }
-
-            if ("Moose" == gameObject.name)
+            if (!gameObject.activeInHierarchy || gameObject.layer == vp_Layer.Gear)
             {
                 return SearchResult.SKIP_CHILDREN;
             }
@@ -61,15 +51,15 @@ namespace HomeImprovement
 
         internal static void Prepare(GameObject gameObject)
         {
-            if (gameObject.name.StartsWith("Decal-"))
-            {
-                gameObject.transform.localRotation = Quaternion.identity;
-            }
-
             Renderer renderer = Utils.GetLargestBoundsRenderer(gameObject);
             if (renderer == null)
             {
                 return;
+            }
+
+            if (gameObject.name.StartsWith("Decal-"))
+            {
+                gameObject.transform.localRotation = Quaternion.identity;
             }
 
             Collider collider = gameObject.GetComponentInChildren<Collider>();
@@ -79,7 +69,7 @@ namespace HomeImprovement
             }
 
             GameObject collisionObject = new GameObject();
-            collisionObject.name = "PaperDecalRemover-" + gameObject.name.Substring("Decal-".Length);
+            collisionObject.name = "PaperDecalRemover-" + gameObject.name;
             collisionObject.transform.parent = gameObject.transform.parent;
             collisionObject.transform.position = gameObject.transform.position;
 

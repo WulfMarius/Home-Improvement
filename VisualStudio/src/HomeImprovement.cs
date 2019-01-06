@@ -1,22 +1,23 @@
-﻿using System.Reflection;
+﻿using ModComponentMapper;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace HomeImprovement
 {
     public class HomeImprovement
     {
         public const string NAME = "Home-Improvement";
-        private static HomeImprovementSettings settings;
 
-        internal static bool RemovableCorpses
-        {
-            get { return settings.RemovableCorpses; }
-        }
+        private static HomeImprovementSettings settings;
 
         internal static bool RemovableCampfires
         {
             get { return settings.RemovableCampfires; }
+        }
+
+        internal static bool RemovableCorpses
+        {
+            get { return settings.RemovableCorpses; }
         }
 
         public static void OnLoad()
@@ -29,7 +30,7 @@ namespace HomeImprovement
             settings = HomeImprovementSettings.Load();
             settings.AddToModSettings(NAME, ModSettings.MenuType.MainMenuOnly);
 
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += PrepareScene;
+            ModComponentMapper.Implementation.OnSceneReady += PrepareScene;
         }
 
         internal static void Log(string message)
@@ -43,15 +44,15 @@ namespace HomeImprovement
             Debug.LogFormat(preformattedMessage, parameters);
         }
 
-        internal static void PrepareScene(Scene scene, LoadSceneMode mode)
+        internal static void PrepareScene()
         {
-            if (GameManager.m_ActiveScene == null || "Empty" == scene.name || "MainMenu" == scene.name || "Boot" == scene.name)
+            if (ModUtils.IsNonGameScene())
             {
                 return;
             }
 
-            RepairManager.PrepareRepairables(scene);
-            CleanupManager.PrepareCleanables(scene);
+            CleanupManager.PrepareCleanables();
+            RepairManager.PrepareRepairables();
         }
     }
 }

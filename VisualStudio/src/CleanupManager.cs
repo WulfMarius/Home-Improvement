@@ -8,31 +8,23 @@ namespace HomeImprovement
 {
     public class CleanupManager
     {
-        internal static void PrepareCleanables(Scene scene)
+        internal static void PrepareCleanables()
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
             int count = 0;
 
-            count += PreparePaper(scene);
-            count += PrepareCorpses(scene);
-
-            stopwatch.Stop();
-            Log("Prepared " + count + " cleanable(s) for scene '" + scene.name + "' in " + stopwatch.ElapsedMilliseconds + " ms");
-        }
-
-        private static int PreparePaper(Scene scene)
-        {
-            int count = 0;
-
-            foreach (GameObject eachPaperClutter in GetSceneObjects(scene, PaperClutter.FilterInstance))
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
             {
-                PaperClutter.Prepare(eachPaperClutter);
-                count++;
+                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+
+                count += PreparePaper(scene);
+                count += PrepareCorpses(scene);
             }
 
-            return count;
+            stopwatch.Stop();
+            Log("Prepared {0} cleanable(s) for scene '{1}' in {2} ms", count, GameManager.m_ActiveScene, stopwatch.ElapsedMilliseconds);
         }
 
         private static int PrepareCorpses(Scene scene)
@@ -47,6 +39,19 @@ namespace HomeImprovement
             foreach (GameObject eachCorpseClutter in GetSceneObjects(scene, CorpseClutter.FilterInstance))
             {
                 CorpseClutter.Prepare(eachCorpseClutter);
+                count++;
+            }
+
+            return count;
+        }
+
+        private static int PreparePaper(Scene scene)
+        {
+            int count = 0;
+
+            foreach (GameObject eachPaperClutter in GetSceneObjects(scene, PaperClutter.FilterInstance))
+            {
+                PaperClutter.Prepare(eachPaperClutter);
                 count++;
             }
 
