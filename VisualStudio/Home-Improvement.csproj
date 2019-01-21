@@ -43,20 +43,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\CleanupManager.cs" />
+    <Compile Include="src\preparer\AbstractScenePreparer.cs" />
+    <Compile Include="src\preparer\ApplyRepairDefinitions.cs" />
+    <Compile Include="src\preparer\IScenePreparer.cs" />
+    <Compile Include="src\preparer\ScenePreparers.cs" />
+    <Compile Include="src\preparer\ConvertToyBlocks.cs" />
     <Compile Include="src\HomeImprovement.cs" />
     <Compile Include="src\modsettings\HomeImprovementSettings.cs" />
-    <Compile Include="src\CorpseClutter.cs" />
-    <Compile Include="src\PaperClutter.cs" />
+    <Compile Include="src\preparer\BreakDownCorpses.cs" />
+    <Compile Include="src\preparer\BreakDownPapers.cs" />
     <Compile Include="src\patches\RemoveCampfirePatches.cs" />
     <Compile Include="src\PathGameObjectSearchFilter.cs" />
     <Compile Include="src\RepairableContainer.cs" />
     <Compile Include="src\RepairableContainerDefinition.cs" />
-    <Compile Include="src\RepairableDrawer.cs" />
+    <Compile Include="src\preparer\RepairDrawers.cs" />
     <Compile Include="src\GameObjectSearchFilter.cs" />
     <Compile Include="src\patches\RepairPatches.cs" />
     <Compile Include="src\Repairable.cs" />
-    <Compile Include="src\RepairableCabinetDoor.cs" />
+    <Compile Include="src\preparer\RepairableCabinetDoors.cs" />
     <Compile Include="src\RepairedContainer.cs" />
     <Compile Include="src\RepairManager.cs" />
     <Compile Include="src\HomeImprovementUtils.cs" />

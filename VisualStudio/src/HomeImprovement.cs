@@ -1,6 +1,8 @@
-﻿using ModComponentMapper;
-using System.Reflection;
+﻿using System.Reflection;
 using UnityEngine;
+
+
+using HomeImprovement.Preparer;
 
 namespace HomeImprovement
 {
@@ -25,8 +27,6 @@ namespace HomeImprovement
             AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
             Log("Version " + assemblyName.Version);
 
-            RepairManager.Initialize();
-
             settings = HomeImprovementSettings.Load();
             settings.AddToModSettings(NAME, ModSettings.MenuType.MainMenuOnly);
 
@@ -46,13 +46,12 @@ namespace HomeImprovement
 
         internal static void PrepareScene()
         {
-            if (ModUtils.IsNonGameScene())
+            if (ModComponentMapper.ModUtils.IsNonGameScene())
             {
                 return;
             }
 
-            CleanupManager.PrepareCleanables();
-            RepairManager.PrepareRepairables();
+            ScenePreparers.PrepareScene();
         }
     }
 }

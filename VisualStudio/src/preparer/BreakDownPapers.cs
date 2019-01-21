@@ -1,30 +1,13 @@
-﻿using UnityEngine;
+﻿using ModComponentMapper;
+using UnityEngine;
 
-using ModComponentMapper;
-
-namespace HomeImprovement
+namespace HomeImprovement.Preparer
 {
-    internal class PaperClutter : GameObjectSearchFilter
+    internal class BreakDownPapers : AbstractScenePreparer
     {
-        private static PaperClutter instance;
+        protected override bool Disabled => false;
 
-        private PaperClutter()
-        {
-        }
-
-        public static PaperClutter FilterInstance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new PaperClutter();
-                }
-                return instance;
-            }
-        }
-
-        public override SearchResult Filter(GameObject gameObject)
+        protected override SearchResult Accept(GameObject gameObject)
         {
             if (!gameObject.activeInHierarchy || gameObject.layer == vp_Layer.Gear)
             {
@@ -45,16 +28,15 @@ namespace HomeImprovement
                 }
             }
 
-
             return SearchResult.CONTINUE;
         }
 
-        internal static void Prepare(GameObject gameObject)
+        protected override bool Prepare(GameObject gameObject)
         {
             Renderer renderer = Utils.GetLargestBoundsRenderer(gameObject);
             if (renderer == null)
             {
-                return;
+                return false;
             }
 
             if (gameObject.name.StartsWith("Decal-"))
@@ -68,8 +50,7 @@ namespace HomeImprovement
                 gameObject = collider.gameObject;
             }
 
-            GameObject collisionObject = new GameObject();
-            collisionObject.name = "PaperDecalRemover-" + gameObject.name;
+            GameObject collisionObject = new GameObject("PaperDecalRemover-" + gameObject.name);
             collisionObject.transform.parent = gameObject.transform.parent;
             collisionObject.transform.position = gameObject.transform.position;
 
@@ -97,6 +78,8 @@ namespace HomeImprovement
             ChangeLayer changeLayer = gameObject.AddComponent<ChangeLayer>();
             changeLayer.Layer = vp_Layer.InteractivePropNoCollideGear;
             changeLayer.Recursively = true;
+
+            return true;
         }
     }
 }

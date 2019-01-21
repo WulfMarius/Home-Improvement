@@ -73,6 +73,22 @@ namespace HomeImprovement
             return null;
         }
 
+        internal static GameObject FindGameObject(string path, Vector3 position)
+        {
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            {
+                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+
+                List<GameObject> targets = GetSceneObjects(scene, new PathGameObjectSearchFilter(path, position));
+                if (targets.Count > 0)
+                {
+                    return targets[0];
+                }
+            }
+
+            return null;
+        }
+
         internal static GameObject GetParent(Component component)
         {
             if (component == null)

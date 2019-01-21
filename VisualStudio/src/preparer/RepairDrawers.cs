@@ -3,29 +3,13 @@
 using static HomeImprovement.HomeImprovementUtils;
 using static ModComponentMapper.ModUtils;
 
-namespace HomeImprovement
+namespace HomeImprovement.Preparer
 {
-    internal class RepairableDrawer : GameObjectSearchFilter
+    internal class RepairDrawers : AbstractScenePreparer
     {
-        private static RepairableDrawer instance;
+        protected override bool Disabled => false;
 
-        private RepairableDrawer()
-        {
-        }
-
-        public static RepairableDrawer FilterInstance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new RepairableDrawer();
-                }
-                return instance;
-            }
-        }
-
-        public override SearchResult Filter(GameObject gameObject)
+        protected override SearchResult Accept(GameObject gameObject)
         {
             if (gameObject.layer == vp_Layer.Gear)
             {
@@ -51,23 +35,36 @@ namespace HomeImprovement
             return SearchResult.CONTINUE;
         }
 
-        internal static void Prepare(GameObject target, Container template)
+        protected override bool Prepare(GameObject gameObject)
         {
-            Prepare(target, template, target.transform.localPosition);
+            Container template = HomeImprovementUtils.FindContainerTemplate(gameObject);
+            if (template == null)
+            {
+                return false;
+            }
+
+            return Prepare(gameObject, template, gameObject.transform.localPosition);
         }
 
-        internal static void Prepare(GameObject target, Container template, Vector3 referencePoint)
+        internal static bool Prepare(GameObject gameObject, Container template, Vector3 referencePoint)
         {
-            RepairableContainer repairable = GetOrCreateComponent<RepairableContainer>(target);
+            if (gameObject.GetComponent<RepairableContainer>() != null)
+            {
+                return false;
+            }
+
+            RepairableContainer repairable = GetOrCreateComponent<RepairableContainer>(gameObject);
             repairable.Template = template.gameObject;
             repairable.ParentContainer = GetParent(repairable.Template);
             repairable.TargetPosition = RepairableContainer.GetTargetPosition(repairable.ParentContainer, referencePoint);
             repairable.TargetRotation = Quaternion.identity;
-            repairable.RequiresTools = target.CompareTag("Metal");
+            repairable.RequiresTools = gameObject.CompareTag("Metal");
 
-            GetOrCreateComponent<BoxCollider>(target);
+            GetOrCreateComponent<BoxCollider>(gameObject);
 
-            target.layer = vp_Layer.Container;
+            gameObject.layer = vp_Layer.Container;
+
+            return true;
         }
     }
 }

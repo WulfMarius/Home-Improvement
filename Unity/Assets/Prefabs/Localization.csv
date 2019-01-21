@@ -2,3 +2,6 @@ Key, English, German, Russian
 GAMEPLAY_CrumpledPaper, "Crumpled Paper", "Zerknülltes Papier", "Скомканная бумага" 
 GAMEPLAY_CrumpledPapers, "Crumpled Papers", "Zerknüllte Papiere", "Скомканная бумага" 
 GAMEPLAY_CrumpledPaperDescription, "Little bits and pieces of crumpled paper.", "Kleine Stückchen zerknülltes Papier.", "Кусочки мятой бумаги." 
+GAMEPLAY_ToyBlock, "Toy Block", "Bauklotz"
+GAMEPLAY_ToyBlockDescription, "A wooden toy block.", "Ein hölzerner Spielzeugbauklotz."
+GAMEPLAY_ToyBlocks, "Toy Blocks", "Bauklötze"
