@@ -22,7 +22,7 @@ namespace HomeImprovement.Preparer
             qd_Decal decal = gameObject.GetComponent<qd_Decal>();
             if (decal)
             {
-                if (decal.texture.name.StartsWith("FX_DebrisPaper") || decal.texture.name.StartsWith("FX_DebrisMail"))
+                if (decal.texture.name.StartsWith("FX_DebrisPaper") || decal.texture.name.StartsWith("FX_DebrisMail") || decal.texture.name.StartsWith("FX_DebriPaper"))
                 {
                     return SearchResult.INCLUDE_SKIP_CHILDREN;
                 }
